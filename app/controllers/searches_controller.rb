@@ -2,22 +2,20 @@ class SearchesController < ApplicationController
   #ユーザがログインしているかどうかを確認し、ログインしていない場合はユーザをログインページにリダイレクト
   before_action :authenticate_user!
 
-  def search
-    #検索フォームからの情報を受け取り
-    #検索モデル →params[:range]
-    @range = params[:range]
-    # if文を使い、検索モデルUser or Bookで条件分岐
-    if @range == "User"
-      #検索方法→params[:search] 検索ワード→params[:word]
-      @users = User.looks(params[:search],params[:word])
-      render  'searches/search_result'
-      #looksメソッドを使い、検索内容を取得し、変数に代入
-      #検索方法params[:search]と、検索ワードparams[:word]を参照してデータを検索し、
-      #1インスタンス変数@usersにUserモデル内での検索結果を代入
-      #2インスタンス変数@booksにBookモデル内での検索結果を代入
-    else
-      @books = Book.looks(params[:search],params[:word])
-      render  'searches/search_result'
-    end
-  end
+	def search
+		@model = params[:model]
+		@content = params[:content]
+		@method = params[:method]
+		if @model == 'user'
+			@records = User.search_for(@content, @method)
+		else
+			@records = Book.search_for(@content, @method)
+		end
+	end
 end
+#検索対象はmodel、検索ワードはcontent、検索方法はmethod
+
+#検索フォームで入力、選択された値をparamsで受け取って@~に代入
+#paramsは、フォームなどによって送られてきた情報（パラメーター）を取得するメソッド
+#その後に、@modelの値がuserだった場合と、bookだった場合で if文を使い条件分岐
+#そしてインスタンス変数　@recordsに入れているのはUser, Bookそれぞれの検索ワード、方法の結果を代入
