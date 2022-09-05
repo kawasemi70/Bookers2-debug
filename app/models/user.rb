@@ -54,4 +54,33 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end
+
+
+  #検索機能方法分岐
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @user = User.where("name LIKE?", "#{word}")
+      #nameは検索対象であるusersテーブル内のカラム名
+      #このコードはUserモデルから検索ワードにヒットしているかを確認するコード
+    elsif search == "forard_match"
+      @user = User.where("name LIKE?", "#{word}")
+    elsif search == "backward_match"
+      @user = User.where("name LIKE?", "#{word}")
+    elsif search == "partial_match"
+      @user = User.where("name LIKE?", "#{word}")
+    else
+      @user = User.all
+    end
+    #各検索方法を_serach.html.erbの検索フォームと同じにする
+    #完全一致→perfect_match
+    #前方一致→forward_match
+    #後方一致→backword_match
+    #部分一致→partial_match
+
+    #送られてきたsearchによって条件分岐させる
+    #whereメソッドを使いデータベースから該当データを取得し、変数に代入
+    #完全一致以外の検索方法は、
+    #{word}の前後(もしくは両方に)、__%__を追記することで定義することができる
+    #これにより、検索方法毎に適した検索が行われる
+  end
 end
