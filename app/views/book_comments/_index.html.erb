@@ -2,7 +2,7 @@
   <tbody>
       <% book.book_comments.each do |book_comment| %>
       <tr>
-        
+
         <td>
           <%= link_to user_path(book_comment.user) do %>
             <%= image_tag book_comment.user.get_profile_image, size: "100x100" %><br>
@@ -11,8 +11,9 @@
         </td>
         <td><%= book_comment.comment %></td>
         <td>
+           <%# No route matches {:action=>"destroy", :controller=>"book_comments", :id=>"1"}, missing required keys: [:book_id]%>
           <% if book_comment.user == current_user %>
-            <%= link_to "Destroy", book_book_comment_path(book, book_comment), method: :delete, class: "btn btn-danger pull-right" %>
+            <%= link_to "Destroy", book_book_comment_path(book, book_comment.id), method: :delete, remote: true, class: "btn btn-danger pull-right" %>
           <% end %>
         </td>
       </tr>
