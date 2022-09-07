@@ -1,4 +1,8 @@
 <!--id="comments_areaにをrenderで指定した部分テンプレートに更新-->
-$("#comments_area").html("<%= j(render 'book_comments/index', book: @book, book_comments: @book_comments) %>");
+<%#$("#comments_area").html("<%= j(render 'book_comments/index', book: @book, book_comments: @book_comments) %>
 <!--フォームを送信したあとにフォームの値を空にします-->
-$("book_comment_comment").val('');
+<%#$("book_comment_comment").val(''); %>
+$('.book_comments_counter').html("<%= j(render 'book_comments/counter', book: @comment.book) %>")
+
+<%#$('.book-comments-counter').html("<%= j(render 'book_comments/counter', book: @comment.book) % >") %>
+$('.book_comments_index').html("<%= j(render 'book_comments/index', book: @comment.book) %>")
